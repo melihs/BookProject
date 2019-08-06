@@ -3,25 +3,33 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author melih sahin
- */
 public class Operations {
    
     Connection con = null;
     Statement sta = null;
     PreparedStatement psta = null;
+    
+    
+   public boolean Login(String username, String password)
+   {
+       String query = "select * from admin where username= ? and password= ?";
+        try  {
+            psta = con.prepareStatement(query);
+            psta.setString(1,username);
+            psta.setString(2,password);
+            ResultSet rs = psta.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operations.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+       
+   }
     
     public Operations () {
             
