@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,13 +13,18 @@
  * @author msahi
  */
 public class BookArchive extends javax.swing.JDialog {
-
+    DefaultTableModel model;
+    Operations op = new Operations();
+    
+    
     /**
      * Creates new form BookArchive
      */
     public BookArchive(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        model =(DefaultTableModel) book_table.getModel();
+        viewBook();
     }
 
     /**
@@ -39,7 +48,7 @@ public class BookArchive extends javax.swing.JDialog {
         jTextField4 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        book_table = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -122,27 +131,28 @@ public class BookArchive extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        book_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "name", "author", "type", "publisher"
+                "id", "name", "author", "type", "publisher"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        jScrollPane1.setViewportView(book_table);
+        if (book_table.getColumnModel().getColumnCount() > 0) {
+            book_table.getColumnModel().getColumn(0).setResizable(false);
+            book_table.getColumnModel().getColumn(1).setResizable(false);
+            book_table.getColumnModel().getColumn(2).setResizable(false);
+            book_table.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jButton2.setBackground(new java.awt.Color(255, 255, 51));
@@ -214,6 +224,27 @@ public class BookArchive extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void viewBook()
+    {
+        model.setRowCount(0);
+        ArrayList<Book> books = new ArrayList<Book>();
+        books = op.getBook();
+        
+        if(books != null){
+            for(Book bookx : books ){
+                Object[] add = {
+                    bookx.getId(),
+                    bookx.getName(),
+                    bookx.getAuthor(),
+                    bookx.getType(),
+                    bookx.getPublisher()
+                }; 
+                model.addRow(add);
+            }
+            
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -257,6 +288,7 @@ public class BookArchive extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable book_table;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -269,7 +301,6 @@ public class BookArchive extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

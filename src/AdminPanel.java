@@ -134,7 +134,10 @@ public class AdminPanel extends javax.swing.JFrame {
         String password = new String (password_field.getPassword());
         boolean result = operations.Login(username,password);
         if(result == true){
-            message.setText("Login successfull");
+            BookArchive book = new BookArchive(this,true);
+            setVisible(false);
+            book.setVisible(true);
+            System.exit(0);
         }else{
             message .setText("Couldn't Login");
         }
