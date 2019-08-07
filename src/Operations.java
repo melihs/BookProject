@@ -15,6 +15,19 @@ public class Operations {
     Statement sta = null;
     PreparedStatement psta = null;
     
+    public void deleteBook(int id)
+    {
+        String query = "delete from book where id=?";
+        try {
+            psta = con.prepareStatement(query);
+            psta.setInt(1,id);
+            psta.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     public void updateBook(int id,String new_name,String new_author,String new_type,String new_publisher)
     {
         String query = "update book set name=?,author=?,type=?,publisher=? where id=?";

@@ -185,6 +185,11 @@ public class BookArchive extends javax.swing.JDialog {
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setText("Book Archive Management System");
@@ -343,6 +348,22 @@ public class BookArchive extends javax.swing.JDialog {
             message_update.setText("Book update Successfull");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int selected_row = book_table.getSelectedRow();
+        if(selected_row == -1){
+            if(model.getRowCount()== 0){
+                message_success.setText("Book table null!");
+            }else{
+                message_success.setText("Book not selected delete ");
+            }
+        }else{
+            int id =(int) model.getValueAt(selected_row,0);
+            op.deleteBook(id);
+            viewBook();
+            message_success.setText("Book delete Successfull");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
     
     /**
      * 
