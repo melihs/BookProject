@@ -15,6 +15,30 @@ public class Operations {
     Statement sta = null;
     PreparedStatement psta = null;
     
+    public void addBook(String name,String author,String type,String publisher)
+    {
+        try {
+           String query1 = "select * from book";
+            ResultSet rs = sta.executeQuery(query1);
+            int user_id =0;
+            while(rs.next())
+            {
+                user_id = rs.getInt(1);
+            }
+            user_id ++;
+            String query = "insert into book(id,name,author,type,publisher) values (?,?,?,?,?)";
+            psta = con.prepareStatement(query);
+            psta.setInt(1,user_id);
+            psta.setString(2,name );
+            psta.setString(3,author );
+            psta.setString(4, type);
+            psta.setString(5,publisher);
+            psta.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
    public ArrayList<Book> getBook()
    {
        ArrayList<Book> list = new ArrayList<Book>();
@@ -22,7 +46,7 @@ public class Operations {
         try {
             sta = con.createStatement();
             ResultSet rs = sta.executeQuery(query);
-            
+  
             while(rs.next() ){
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
@@ -41,7 +65,7 @@ public class Operations {
     
    public Operations () {
             
-        String url = "jdbc:mysql://"+ Database.host+":"+Database.port+"/"+Database.db_name;
+        String url = "jdbc:mysql://"+ Database.host+":"+Database.port+"/"+Database.db_name+"?useUnicode=true&characterEncoding=UTF-8";
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -73,11 +97,8 @@ public class Operations {
        
    }
     
-    
-    
-    public static void main(String[] args) {
+   public static void main(String[] args) {
         Operations  op = new Operations();
-        
     }
     
 }
