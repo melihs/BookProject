@@ -59,6 +59,7 @@ public class BookArchive extends javax.swing.JDialog {
         search_field = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         message_success = new javax.swing.JLabel();
+        message_update = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -158,6 +159,11 @@ public class BookArchive extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        book_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                book_tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(book_table);
         if (book_table.getColumnModel().getColumnCount() > 0) {
             book_table.getColumnModel().getColumn(0).setResizable(false);
@@ -170,6 +176,11 @@ public class BookArchive extends javax.swing.JDialog {
         jButton2.setBackground(new java.awt.Color(255, 255, 51));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Edit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -211,6 +222,9 @@ public class BookArchive extends javax.swing.JDialog {
         message_success.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         message_success.setForeground(new java.awt.Color(0, 204, 51));
 
+        message_update.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        message_update.setForeground(new java.awt.Color(51, 204, 0));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -227,6 +241,8 @@ public class BookArchive extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
+                                .addComponent(message_update)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(message_success)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,7 +276,8 @@ public class BookArchive extends javax.swing.JDialog {
                             .addComponent(message_success)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(message_update))))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
@@ -296,6 +313,36 @@ public class BookArchive extends javax.swing.JDialog {
         viewBook();
         message_success.setText("Book successfully added");
     }//GEN-LAST:event_add_btnActionPerformed
+
+    private void book_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_book_tableMouseClicked
+        int selected_row = book_table.getSelectedRow();
+        name_field.setText(model.getValueAt(selected_row,1).toString());
+        author_field.setText(model.getValueAt(selected_row,2).toString());
+        type_field.setText(model.getValueAt(selected_row,3).toString());
+        publisher_field.setText(model.getValueAt(selected_row,4).toString());
+    }//GEN-LAST:event_book_tableMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String name = name_field.getText();
+        String author = author_field.getText();
+        String type = type_field.getText();
+        String publisher = publisher_field.getText();
+        
+        int selected_row = book_table.getSelectedRow();
+        
+        if(selected_row == -1 ){
+            if(model.getRowCount()==0){
+                message_update.setText("Book table null!");
+            }else {
+                 message_update.setText("Book select update");
+            }
+        }else {
+            int id =(int) model.getValueAt(selected_row,0);
+            op.updateBook(id,name,author,type,publisher);
+            viewBook();
+            message_update.setText("Book update Successfull");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     /**
      * 
@@ -387,6 +434,7 @@ public class BookArchive extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel message_success;
+    private javax.swing.JLabel message_update;
     private javax.swing.JTextField name_field;
     private javax.swing.JTextField publisher_field;
     private javax.swing.JTextField search_field;

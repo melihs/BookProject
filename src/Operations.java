@@ -15,6 +15,23 @@ public class Operations {
     Statement sta = null;
     PreparedStatement psta = null;
     
+    public void updateBook(int id,String new_name,String new_author,String new_type,String new_publisher)
+    {
+        String query = "update book set name=?,author=?,type=?,publisher=? where id=?";
+        try {
+            psta = con.prepareStatement(query);
+            psta.setString(1,new_name);
+            psta.setString(2,new_author);
+            psta.setString(3,new_type);
+            psta.setString(4,new_publisher);
+            psta.setInt(5,id);
+            psta.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operations.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     public void addBook(String name,String author,String type,String publisher)
     {
         try {
