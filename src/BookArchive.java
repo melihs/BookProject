@@ -337,15 +337,15 @@ public class BookArchive extends javax.swing.JDialog {
         
         if(selected_row == -1 ){
             if(model.getRowCount()==0){
-                message_update.setText("Book table null!");
+                message_success.setText("Book table null!");
             }else {
-                 message_update.setText("Book select update");
+                 message_success.setText("Book select update");
             }
         }else {
             int id =(int) model.getValueAt(selected_row,0);
             op.updateBook(id,name,author,type,publisher);
             viewBook();
-            message_update.setText("Book update Successfull");
+            message_success.setText("Book update Successfull");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
